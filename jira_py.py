@@ -1,4 +1,5 @@
-from jira import JIRA
+import jira
+from jira import JIRA, exceptions as jiraex
 
 #Authentication Method
 def authenticate(username, password):
@@ -13,8 +14,15 @@ def createJIRAObject(jiraURL, username, password):
 
 #Create JIRA Object and log the input timespent on the input issue
 def logWork(jiraURL, username, password, issue, date, timespent):
+        
     jira = createJIRAObject(jiraURL, username, password)
 
-    return jira.add_worklog(issue = issue,timeSpent = timespent, started = date)
+    try:     
+        worklog = jira.add_worklog(issue = issue,timeSpent = timespent, started = date)
+
+        return worklog
+    except jiraex.JIRAError as e: print(e)
+
+    
 
     

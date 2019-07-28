@@ -22,8 +22,11 @@ for indexCred, credRow in credentials.iterrows():
         if 200 == url_requested.code:
             for indexTime, timeRow in timebooking.iterrows():
                 #Add Worklog to JIRA Issue
-                if credRow['JIRAURL'] == timeRow['JIRAURL']:                  
-                    jira_py.logWork(timeRow['JIRAURL'],  credRow['JIRAUser'], credRow['JIRAPW'], timeRow['JIRAIssue'], timeRow['Date'], timeRow['Time'])
+                if credRow['JIRAURL'] == timeRow['JIRAURL']:
+                    timelog = jira_py.logWork(timeRow['JIRAURL'],  credRow['JIRAUser'], credRow['JIRAPW'], timeRow['JIRAIssue'], timeRow['Date'], timeRow['Time'])
+                    if timelog:
+                        print("Time logged on " + timeRow['JIRAIssue'])
+                    
     #Except if the URL could not be read
     except urllib.error.URLError as e: print('URL ' + credRow['JIRAURL'] + ' could not be read')
     #Except a ValueError and prints it
