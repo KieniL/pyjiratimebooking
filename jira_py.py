@@ -21,7 +21,7 @@ def logWork(jiraURL, username, password, issue, date, timespent):
         worklog = jira.add_worklog(issue = issue,timeSpent = timespent, started = date)
 
         return worklog
-    except jiraex.JIRAError as e: print(e)
+    except jiraex.JIRAError as e: print("Time logging not possible on " + issue)
 
     
 
