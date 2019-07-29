@@ -13,12 +13,12 @@ def createJIRAObject(jiraURL, username, password):
 
 
 #Create JIRA Object and log the input timespent on the input issue
-def logWork(jiraURL, username, password, issue, date, timespent):
+def logWork(jiraURL, username, password, issue, date, timespent, comment = None):
         
     jira = createJIRAObject(jiraURL, username, password)
 
     try:     
-        worklog = jira.add_worklog(issue = issue,timeSpent = timespent, started = date)
+        worklog = jira.add_worklog(issue = issue,timeSpent = timespent, started = date, comment = comment)
 
         return worklog
     except jiraex.JIRAError as e: print("Time logging not possible on " + issue)

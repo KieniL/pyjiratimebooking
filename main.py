@@ -1,4 +1,4 @@
-import jira_py, urllib.request, urllib.error
+import jira_py, urllib.request, urllib.error, numpy
 
 import pandas as pd
 
@@ -23,7 +23,11 @@ for indexCred, credRow in credentials.iterrows():
             for indexTime, timeRow in timebooking.iterrows():
                 #Add Worklog to JIRA Issue
                 if credRow['JIRAURL'] == timeRow['JIRAURL']:
-                    timelog = jira_py.logWork(timeRow['JIRAURL'],  credRow['JIRAUser'], credRow['JIRAPW'], timeRow['JIRAIssue'], timeRow['Date'], timeRow['Time'])
+                    #if not numpy.isnan(timeRow['Comment']) and len(str(timeRow['Comment'])) > 0:
+                    if pd.notnull(timeRow['Comment']):
+                        timelog = jira_py.logWork(timeRow['JIRAURL'],  credRow['JIRAUser'], credRow['JIRAPW'], timeRow['JIRAIssue'], timeRow['Date'], timeRow['Time'], timeRow['Comment'])
+                    else:
+                        timelog = jira_py.logWork(timeRow['JIRAURL'],  credRow['JIRAUser'], credRow['JIRAPW'], timeRow['JIRAIssue'], timeRow['Date'], timeRow['Time'], None)
                     if timelog:
                         print("Time logged on " + timeRow['JIRAIssue'])
                     
